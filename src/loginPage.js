@@ -42,7 +42,7 @@ const LoginForm = () => {
         if (!e.target.value.length) {
             setNickNameErrors('Обязательное поле');
         } else {
-            setNickNameErrors('')
+            setNickNameErrors('');
         };
     };
 
@@ -61,9 +61,9 @@ const LoginForm = () => {
             <form onSubmit={handelSubmit}>
                 <h1>Войти</h1>
                 {(nickNameDirty && nickNameErrors) && <div style={{color: 'red'}}>{nickNameErrors}</div>}
-                <input onChange={handleChangeEmail} onBlur={(e) => handleBlur(e)} name='nickName' type='text' placeholder='Имя пользевателя' value={nickName} />
+                <input onChange={handleChangeEmail} onBlur={handleBlur} name='nickName' type='text' placeholder='Имя пользевателя' value={nickName} />
                 {(passwordDirty && passwordErrors) && <div style={{color: 'red'}}>{passwordErrors}</div>}
-                <input onChange={handleChangePassword} onBlur={(e) => handleBlur(e)} name='password' type='text' placeholder='Пароль' value={password} />
+                <input onChange={handleChangePassword} onBlur={handleBlur} name='password' type='text' placeholder='Пароль' value={password} />
                 <button disabled={!valid} type='submit'>Войти</button>
             </form>
         </div>
