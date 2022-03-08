@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import {
     BrowserRouter as Router,
     Link
@@ -7,20 +7,25 @@ import {
 import MainPage from './mainPage.js';
 import LoginForm from './loginPage.js';
 import NotFound from  './notFoundPage.js';
-
-//import { notFound } from "./notFoundPage";
+import SignupForm from './signupPage.js';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+
+
     return (
         <Router>
             <div>
                 <nav>
                     <ul>
                         <li>
-                        <Link to="/">MainPage</Link>
+                            <Link to="/">MainPage</Link>
                         </li>
                         <li>
-                        <Link to="/login">LoginPage</Link>
+                            <Link to="/login">LoginPage</Link>
+                        </li>
+                        <li>
+                            <Link to="/signup">RegistrationPage</Link>
                         </li>
                     </ul>
                 </nav>
@@ -31,6 +36,9 @@ const App = () => {
                     </Route>
                     <Route path="/login">
                         <LoginForm />
+                    </Route>
+                    <Route path="/signup">
+                        <SignupForm />
                     </Route>
                     <Route path="*">
                         <NotFound />

@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom';
 import 'regenerator-runtime/runtime.js';
 import App  from './App.js';
 import '../assets/application.scss';
+import {Provider} from "react-redux";
+import {store} from "./userReducer.js";
 
 // if (process.env.NODE_ENV !== 'production') {
 //   localStorage.debug = 'chat:*';
@@ -30,9 +32,11 @@ import '../assets/application.scss';
 // const container = document.querySelector('#chat');
 // container.append(card);
 
-// console.log('it works!');
+// console.log('it works!');tore
 
 ReactDOM.render(
-  <App />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
   document.getElementById('chat'),
 );

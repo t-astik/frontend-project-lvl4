@@ -1,5 +1,9 @@
-import { Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+// import { Formik } from 'formik';
+import React, { useMemo, useEffect, useState } from 'react';
+import authorization from './authorization.js';
+    import { useDispatch } from 'react-redux';
+import axios from 'axios';
+
 
 const LoginForm = () => {
     const [nickName, setNickName] = useState('');
@@ -8,13 +12,12 @@ const LoginForm = () => {
     const [passwordDirty, setPasswordDirty] = useState(false);
     const [nickNameErrors, setNickNameErrors] = useState('Обязательное поле');
     const [passwordErrors, setPasswordErrors] = useState('Обязатальное поле');
-    const [valid, setValid] = useState(false)
 
-    const formValid = useEffect(() => {
+    const formValid = useMemo(() => {
         if (nickNameErrors || passwordErrors || !nickName || !password ) {
-            setValid(false);
-        } else setValid(true);
-    });
+            return (false);
+        } else return (true);
+    }, [(nickNameErrors, passwordErrors, nickName, password)]);
 
     const handleBlur = (e) => {
         e.preventDefault;
@@ -28,18 +31,12 @@ const LoginForm = () => {
                 break
             }
         };
-    };
+    };   
 
-    const handelSubmit = (e) => {
-        e.preventDefault()
-        setNickName('');
-        setPassword('');
-    };
-
-    const handleChangeEmail = (e) => {
+    const handleChangeNickName = (e) => {
         e.preventDefault;
         setNickName(e.target.value);
-        if (!e.target.value.length) {
+        if (!e.target.value) {
             setNickNameErrors('Обязательное поле');
         } else {
             setNickNameErrors('');
@@ -56,15 +53,23 @@ const LoginForm = () => {
         };
     };
 
+    const dispatch = useDispatch();
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const username = nickName;
+        dispatch(authorization(username, password));   
+    };
+
     return (
         <div className="Login">
-            <form onSubmit={handelSubmit}>
+            <form>
                 <h1>Войти</h1>
                 {(nickNameDirty && nickNameErrors) && <div style={{color: 'red'}}>{nickNameErrors}</div>}
-                <input onChange={handleChangeEmail} onBlur={handleBlur} name='nickName' type='text' placeholder='Имя пользевателя' value={nickName} />
+                <input onChange={handleChangeNickName} onBlur={handleBlur} name='nickName' type='text' placeholder='Имя пользевателя' value={nickName} />
                 {(passwordDirty && passwordErrors) && <div style={{color: 'red'}}>{passwordErrors}</div>}
                 <input onChange={handleChangePassword} onBlur={handleBlur} name='password' type='text' placeholder='Пароль' value={password} />
-                <button disabled={!valid} type='submit'>Войти</button>
+                <button disabled={!formValid}  onClick={handleSubmit} type='submit'>Войти</button>
             </form>
         </div>
     )
