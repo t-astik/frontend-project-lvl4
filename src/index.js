@@ -7,7 +7,7 @@ import 'regenerator-runtime/runtime.js';
 import App  from './App.js';
 import '../assets/application.scss';
 import {Provider} from "react-redux";
-import {store} from "./userReducer.js";
+import {store} from "./store.js";
 
 // if (process.env.NODE_ENV !== 'production') {
 //   localStorage.debug = 'chat:*';
