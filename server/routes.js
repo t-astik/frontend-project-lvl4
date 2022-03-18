@@ -16,8 +16,8 @@ const buildState = (defaultState) => {
       { id: randomChannelId, name: 'random', removable: false },
     ],
     messages: [
-      {"body":"123","channelId":1,"username":"admin","id":11},
-      {"body":"q","channelId":2,"username":"admin","id":12}
+      {"body":"123","channelId":1,"username":"admin","id":111111},
+      {"body":"q","channelId":2,"username":"admin","id":2222222}
     ],
     currentChannelId: generalChannelId,
     users: [
@@ -48,6 +48,7 @@ export default (app, defaultState = {}) => {
     console.log({ 'socket.id': socket.id });
 
     socket.on('newMessage', (message, acknowledge = _.noop) => {
+      console.log('newMessage event', message)
       const messageWithId = {
         ...message,
         id: getNextId(),
@@ -58,6 +59,7 @@ export default (app, defaultState = {}) => {
     });
 
     socket.on('newChannel', (channel, acknowledge = _.noop) => {
+      console.log('newChannel event', channel)
       const channelWithId = {
         ...channel,
         removable: true,

@@ -12,6 +12,7 @@ const authorization =   (username, password) => {
             dispatch(setUser(response.data));
             dispatch(setIsAuth(true));
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('username', response.data.username);
         } catch (error) {
             alert(error.response.data.message);
         }

@@ -1,0 +1,19 @@
+.app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav {
+   width: 100%; 
+}
+
+.content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

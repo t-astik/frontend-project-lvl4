@@ -16,18 +16,20 @@ const App = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username');
+
 
         dispatch(setIsAuth(!!token))
         dispatch(setUser({
-            username: undefined,
+            username,
             token
         }))
     }, [])
 
     return (
         <Router>
-            <div>
-                <nav>
+            <div className="app">
+                <nav className="nav">
                     <ul>
                         <li>
                             <Link to="/">MainPage</Link>
@@ -41,20 +43,22 @@ const App = () => {
                     </ul>
                 </nav>
         
-                <Switch>
-                    <Route path="/" exact={true}>
-                        <MainPage />
-                    </Route>
-                    <Route path="/login">
-                        <LoginForm />
-                    </Route>
-                    <Route path="/signup">
-                        <SignupForm />
-                    </Route>
-                    <Route path="*">
-                        <NotFound />
-                    </Route>
-                </Switch>
+                <div className="content">
+                    <Switch>
+                        <Route path="/" exact={true}>
+                            <MainPage />
+                        </Route>
+                        <Route path="/login">
+                            <LoginForm />
+                        </Route>
+                        <Route path="/signup">
+                            <SignupForm />
+                        </Route>
+                        <Route path="*">
+                            <NotFound />
+                        </Route>
+                    </Switch>
+                </div> 
             </div>
         </Router>
     );

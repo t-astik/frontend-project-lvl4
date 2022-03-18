@@ -1,6 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import registration from '../actions/registration.js';
+import {Button} from 'react-bootstrap';
+import {Form, Card } from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
+import {FloatingLabel} from 'react-bootstrap';
+
+import './loginPageStyles.css';
+
 
  
  const SignupForm = () => {
@@ -17,10 +26,12 @@ import registration from '../actions/registration.js';
     const valid = useMemo(() => {
         if (password !== passwordVerification) {
             return false;
+        } else if (!password || !passwordVerification || !nickName) {
+            return false;
         } else {
             return true;
         }
-    },[password, passwordVerification]);
+    },[password, passwordVerification, nickName]);
 
     const handleChangeNickName = (e) => {
         e.preventDefault();
@@ -55,6 +66,8 @@ import registration from '../actions/registration.js';
             setPasswordVerificationErrors('Обязательное поле');
         } else if (e.target.value.length < 6) {
             setPasswordVerificationErrors('Не менее 6 символов');
+        } else if (e.target.value !== password) {
+            setPasswordVerificationErrors('Пароли должны совпадать');
         } else {
             setPasswordVerificationErrors('');
         }
@@ -87,19 +100,40 @@ import registration from '../actions/registration.js';
     };
 
     return (
-        <div className="registration">
-            <form>
-                <h1>Регистация</h1>
-                {(nickNameDirty && nickNameErrors) && <div style={{color: 'red'}}>{nickNameErrors}</div>}
-                <input type='text' placeholder="Имя пользевателя" name='nickName' value={nickName} onBlur={handleBlur} onChange={handleChangeNickName}/>
-                {(passwordDirty && passwordErrors) && <div style={{color: 'red'}}>{passwordErrors}</div>}
-                <input type='text' placeholder="Пароль" name='password' value={password} onChange={handleChangePassword} onBlur={handleBlur}/>
-                {(passwordVerificationDirty && passwordVerificationErrors) && <div style={{color: 'red'}}>{passwordVerificationErrors}</div>}
-                <input type='text' placeholder="Подвердите пароль" name='passwordVerification' value={passwordVerification} onBlur={handleBlur} onChange={handleChangePasswordVerification}/>
-                <button type='submit' disabled={!valid} onClick={handleSubmit}>Зарегестриваться</button>
-            </form>
-        </div>
-    )
+            <Container>
+                    <Row>
+                        <Col md={{ span: 8, offset: 2 }}>
+                            <Card className="card">
+                                <Row>
+                                    <Col xs={12} sm={6} md={5}>
+                                        <div className="left">
+                                            <img className="signupImage" src="http://localhost:8080/assets/signup-image.jpeg" alt="Регистрация"></img>
+                                        </div>
+                                    </Col>
+                                    <Col xs={12} sm={6} md={7}>
+                                        <div className="right">
+                                            <h1 className="registrationTitle">Регистрация</h1>                                
+                                            <FloatingLabel controlId="floatingInput" label="Имя пользователя" className="field">
+                                                <Form.Control type='text' placeholder="Имя пользевателя" name='nickName' value={nickName} onBlur={handleBlur} onChange={handleChangeNickName}/>
+                                                {(nickNameDirty && nickNameErrors) && <div className="Errors" >{nickNameErrors}</div>}
+                                            </FloatingLabel>
+                                            <FloatingLabel controlId="floatingPassword" label="Пароль" className="field">
+                                                <Form.Control type='text' name='password' placeholder="Пароль" value={password} onChange={handleChangePassword} onBlur={handleBlur}/>
+                                                {(passwordDirty && passwordErrors) && <div className="Errors" >{passwordErrors}</div>}   
+                                            </FloatingLabel>
+                                            <FloatingLabel controlId="floatingPasswordVerification" label="Подвердите пароль" className="field">
+                                                <Form.Control type='text' placeholder="Подвердите пароль" name='passwordVerification' value={passwordVerification} onBlur={handleBlur} onChange={handleChangePasswordVerification}/>
+                                                {(passwordVerificationDirty && passwordVerificationErrors) && <div className="Errors" >{passwordVerificationErrors}</div>}   
+                                            </FloatingLabel>
+                                            <Button className="registrationButton" variant="outline-primary" type='submit' disabled={!valid} onClick={handleSubmit}>Зарегестриваться</Button>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Card>     
+                        </Col>
+                    </Row>
+            </Container>
+    )    
 };
 
 export default SignupForm;
