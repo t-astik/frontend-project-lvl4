@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from "react-router";
 import {
@@ -10,8 +10,12 @@ import LoginForm from './components/loginPage.js';
 import NotFound from  './components/notFoundPage.js';
 import SignupForm from './components/signupPage.js';
 import {setUser, setIsAuth} from './reducers/userReducer.js'
+import {Button, Container, Navbar} from 'react-bootstrap';
+import {logout} from './reducers/userReducer.js';
 
 const App = () => {
+
+
     const dispatch = useDispatch(); 
 
     useEffect(() => {
@@ -29,25 +33,18 @@ const App = () => {
     return (
         <Router>
             <div className="app">
-                <nav className="nav">
-                    <ul>
-                        <li>
-                            <Link to="/">MainPage</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">LoginPage</Link>
-                        </li>
-                        <li>
-                            <Link to="/signup">RegistrationPage</Link>
-                        </li>
-                    </ul>
-                </nav>
-        
+                <Navbar expand="lg" variant="light" bg="light" className="shadow-sm">
+                    <Container>
+                        <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
+                        <Button variant="primary" onClick={() => dispatch(logout())}>Выйти</Button>
+                    </Container>
+                </Navbar>
+
                 <div className="content">
                     <Switch>
                         <Route path="/" exact={true}>
                             <MainPage />
-                        </Route>
+                        </Route> 
                         <Route path="/login">
                             <LoginForm />
                         </Route>

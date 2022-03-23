@@ -1,12 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import registration from '../actions/registration.js';
-import {Button} from 'react-bootstrap';
-import {Form, Card } from 'react-bootstrap';
-import {Container} from 'react-bootstrap';
-import {Row} from 'react-bootstrap';
-import {Col} from 'react-bootstrap';
-import {FloatingLabel} from 'react-bootstrap';
+import {Button, Form, Card, Container, Row, Col, FloatingLabel} from 'react-bootstrap';
 
 import './loginPageStyles.css';
 
@@ -100,7 +95,8 @@ import './loginPageStyles.css';
     };
 
     return (
-            <Container>
+            <div className="conteinerForms">
+                <Container>
                     <Row>
                         <Col md={{ span: 8, offset: 2 }}>
                             <Card className="card">
@@ -132,7 +128,9 @@ import './loginPageStyles.css';
                             </Card>     
                         </Col>
                     </Row>
-            </Container>
+                </Container>
+            </div>
+            
     )    
 };
 

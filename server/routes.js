@@ -82,6 +82,7 @@ export default (app, defaultState = {}) => {
     });
 
     socket.on('renameChannel', ({ id, name }, acknowledge = _.noop) => {
+      console.log('back', id, name)
       const channelId = Number(id);
       const channel = state.channels.find((c) => c.id === channelId);
       if (!channel) return;

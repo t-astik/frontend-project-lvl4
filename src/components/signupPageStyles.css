@@ -52,3 +52,10 @@
     padding-right: 50px;
     text-shadow: rgb(5, 5, 5);
 }
+
+.conteinerForms {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

@@ -1,0 +1,116 @@
+.mainPageContainer {
+    align-items: flex-start;
+}
+
+.mainPageRow {
+    height: 100%;
+}
+
+.griCol {
+    padding: 0px;
+    height: 100%;
+}
+
+.leftCol {
+    border: 1px solid #dee2e6 ;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 48px;
+    padding-left: 10px; 
+    height: 100%;
+    flex-direction: column;
+}
+
+.rightCol {
+    border: 1px solid #dee2e6 ;
+
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.chatListHead {
+    border-top: 1px solid #dee2e6 ;
+    border-bottom: 1px solid #dee2e6 ;
+}
+
+.chatListBody {
+    padding: 20px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 1;
+    overflow: hidden;
+}
+
+.messagesList {
+    padding: 20px;
+    flex: 1;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.messagesInput {
+    width: 100%;
+    
+}
+
+.channels {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.channelsHead {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.channelsList {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding-left: 0px;
+}
+
+.channels-list-element {
+    list-style-type: none;
+}
+
+.plus {
+    padding: 0px;
+}
+
+.plusIc {
+    border: 0px;
+}
+
+.listMasseges {
+    list-style-type: none;
+}
+
+.userName {
+    font-weight: bolder;
+}
+
+.currentChannelTitle {
+    font-weight: bolder;   
+}
+
+.Errors {
+    position: absolute;
+    z-index: 999;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.1rem;
+    font-size: .875rem;
+    color: #fff;
+    background-color: rgba(220,53,69,0.9);
+    border-radius: 0.25rem;
+}
+
+
+
