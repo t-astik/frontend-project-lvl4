@@ -329,7 +329,7 @@ const MainPage = () => {
                         </div>
                         <div className="chatListBody">
                             <div className="messagesList">
-                                {currentChannelMessages.map((message) => <li className="listMasseges" key={message.id}><span className="userName">{user.currentUser.username}</span>: {message.body}</li>)}
+                                {currentChannelMessages.map((message) => <li className="listMasseges" key={message.id}><span className="userName">{message.username}</span>: {message.body}</li>)}
                             </div>
                             <div className="messagesInput">
                                 <InputGroup>
