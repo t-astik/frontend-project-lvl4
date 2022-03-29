@@ -37,7 +37,7 @@ const App = () => {
             <div className="app">
                 <Navbar expand="lg" variant="light" bg="light" className="shadow-sm">
                     <Container>
-                        <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
+                        <Navbar.Brand href="/">ASTIK CHAT</Navbar.Brand>
                         {user.isAuth ? <Button variant="primary" onClick={() => dispatch(logout())}>Выйти</Button> : null}
                     </Container>
                 </Navbar>
