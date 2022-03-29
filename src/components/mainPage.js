@@ -6,18 +6,16 @@ import getData from '../actions/getData.js';
 import {setCurrentChannel} from '../reducers/channelsReducer.js';
 import {Button, Form, Card, Container, Row, Col, FloatingLabel, Dropdown, SplitButton, Modal, InputGroup, ButtonGroup} from 'react-bootstrap';
 import './mainPageStyles.css';
+import AddChannelModal from './AddChannelModal.js';
+import RenameChannelModal from './RenameChannelModal.js';
+import DeleteChannelModal from './DeleteChannelModal.js';
 
 const MainPage = () => {
 
     const [textOfMessage, setTextOfMessage] = useState('');
     const [socket, setSocket] = useState(undefined);
-    const [channelName, setChannelName] = useState('');
-    const [renamedChannelName, setRenamedChannelName] = useState('');
-    const [channelNameDirty, setChannelNameDirty] = useState(false);
-    const [renamedChannelNameDirty, setRenamedChannelNameDirty] = useState(false);
-    const [channelNameErrors, setChannelNameErrors] = useState('Обязательное поле');
-    const [renamedChannelNameErrors, setRenamedChannelNameErrors] = useState('Обязательное поле');
-    const [modalActive, setModalActive] = useState(false);
+
+    const [modalAddActive, setModalAddActive] = useState(false);
     const [modalDeleteActive, setModalDeleteActive] = useState(false);
     const [modalRenameActive, setModalRenameActive] = useState(false);
 
@@ -30,11 +28,9 @@ const MainPage = () => {
         return channels.find((channel) => channel.id === currentChannelId)
     }, [channels, currentChannelId])
     
-
     const currentChannelMessages = useMemo(() => {
         return messages.filter(((message) => message.channelId === currentChannelId))
     }, [messages, currentChannelId]);
-
 
     const dispatch = useDispatch(); 
 
@@ -43,22 +39,6 @@ const MainPage = () => {
             dispatch(getData(user.currentUser.token))
         }
     }, [user]);
-
-    const validChannel = useMemo(() => {
-        if (channelNameErrors) {
-            return false;
-        } else {
-            return true;
-        }
-    },[channelName]);
-
-    const validRenamedChannel = useMemo(() => {
-        if (renamedChannelNameErrors) {
-            return false;
-        } else {
-            return true;
-        }
-    },[renamedChannelName]);
 
     const handleClick = (channel) => (e) => {
         e.preventDefault;
@@ -90,79 +70,31 @@ const MainPage = () => {
         }
     }, [user])
 
-    const handelRemoveChannel = useCallback((e) => {
-        e.preventDefault();
-        setModalDeleteActive(false);
-
+    const handelRemoveChannelV2 = useCallback((id) => {
         if (socket) {
             socket.emit('removeChannel', {
-                id: currentChannelId
+                id: id,
             });
             dispatch(setCurrentChannel(1));
         }
+    }, [socket]);
 
-    }, [socket, currentChannel])
-
-    const handleRenameChannel = useCallback((e) => {
+    const handleRenameChannelV2 = useCallback((id, newName) => {
         if (socket) {
             socket.emit('renameChannel', {
-                id: currentChannelId,
-                name: renamedChannelName,
+                id: id,
+                name: newName,
             });
         }
-        
-        setModalRenameActive(false);
-    }, [socket, currentChannelId, renamedChannelName]);
+    }, [socket]);
 
-    const handleChangeChannelName = (e) => {
-        e.preventDefault();
-        setChannelName(e.target.value)
-        if (!e.target.value) {
-            setChannelNameErrors('Обязательное поле')
-        } else if (e.target.value.length < 3 || e.target.value.length > 20) {
-            setChannelNameErrors('От 3 до 20 символов')
-        } else {
-            setChannelNameErrors('');
-        }
-    };
-
-    const handleRenameChannelName = (e) => {
-        e.preventDefault();
-        setRenamedChannelName(e.target.value)
-        if (!e.target.value) {
-            setRenamedChannelNameErrors('Обязательное поле')
-        } else if (e.target.value.length < 3 || e.target.value.length > 20) {
-            setRenamedChannelNameErrors('От 3 до 20 символов')
-        } else {
-            setRenamedChannelNameErrors('');
-        }
-    };
-
-    const handleBlur = (e) => {
-        e.preventDefault();
-        switch (e.target.name) {
-            case 'channelName': {
-                setChannelNameDirty(true);
-                break;
-            }
-            case 'renamedChannelName': {
-                setRenamedChannelNameDirty(true);
-                break;
-            }
-        }
-    };
-
-    const handleAddChannel = useCallback((e) => {
-        e.preventDefault();
-
+    const handleAddChannelV2 = useCallback((channelName) => {
         if (socket) {
             socket.emit('newChannel', {
                 name: channelName
             });
         }
-        setChannelName('');
-        setModalActive(false);
-    }, [socket, channelName])
+    }, [socket]);
 
     const messagesCounter = (count) => {
         if (count === 1) {
@@ -174,10 +106,9 @@ const MainPage = () => {
         }
     };
 
-
     useEffect(() => {
         setSocket(io(""));
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (socket) {
@@ -207,16 +138,17 @@ const MainPage = () => {
         }
     }, [socket])
 
-    const handleOnHide = () => {
-        if (modalActive == false || modalRenameActive == false) {
-            setChannelName('');
-            setRenamedChannelName('');
-            setChannelNameErrors('');
-            setRenamedChannelNameErrors('');
-            setModalActive(false);
-            setModalRenameActive(false);
-        }
-    };
+    const handleToggleAddChannelModal = (isActive) => {
+        setModalAddActive(isActive)
+    }
+
+    const handleToggleRenameChannelModal = (isActive) => {
+        setModalRenameActive(isActive)
+    }
+
+    const handleToggleDeleteChannelModal = (isActive) => {
+        setModalDeleteActive(isActive)
+    }
 
     if (!user.isAuth) return <Redirect to={'./login'} />;
 
@@ -225,58 +157,17 @@ const MainPage = () => {
             <Row className="mainPageRow">
                 <Col xs={6} md={2} className="griCol">
                     <div className="leftCol">
-                        <Modal centered show={modalActive} onHide={handleOnHide}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Добавить канал</Modal.Title>
-                            </Modal.Header>
-
-                            <Modal.Body>
-                                <FloatingLabel controlId="floatingInput" label="Название канала">
-                                    <Form.Control type='text' placeholder="Название канала" name="channelName" onChange={handleChangeChannelName} value={channelName} onBlur={handleBlur} />
-                                    {(channelNameDirty && channelNameErrors) && <div className="Errors">{channelNameErrors}</div>}  
-                                </FloatingLabel>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => setModalActive(false)}>Отменить</Button>
-                                <Button variant="primary" onClick={handleAddChannel} disabled={!validChannel}>Отправить</Button>
-                            </Modal.Footer>
-                        </Modal>
-
-                        <Modal centered show={modalRenameActive} onHide={handleOnHide}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Переименовать канал</Modal.Title>
-                            </Modal.Header>
-
-                            <Modal.Body>
-                                <FloatingLabel controlId="floatingInput" label="Название канала" >
-                                    <Form.Control type='text' placeholder="Название канала" name="renamedChannelName" onChange={handleRenameChannelName} value={renamedChannelName} onBlur={handleBlur} />
-                                    {(renamedChannelNameDirty && renamedChannelNameErrors) && <div className="Errors" >{renamedChannelNameErrors}</div>}  
-                                </FloatingLabel>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => setModalRenameActive(false)}>Отменить</Button>
-                                <Button variant="primary" onClick={handleRenameChannel} disabled={!validRenamedChannel}>Отправить</Button>
-                            </Modal.Footer>
-                        </Modal>
-
-                        <Modal centered show={modalDeleteActive} onHide={() => setModalDeleteActive(false)}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Удалить канал</Modal.Title>
-                            </Modal.Header>
-
-                            <Modal.Body>
-                                <p>Уверены?</p>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={() => setModalDeleteActive(false)}>Отменить</Button>
-                                <Button variant="danger" onClick={handelRemoveChannel}>Удалить</Button>
-                            </Modal.Footer>
-                        </Modal>
                         
+                        <AddChannelModal onAddChannel={handleAddChannelV2} onToggleModal={handleToggleAddChannelModal} isActive={modalAddActive}/>
+
+                        <RenameChannelModal onRenameChannel={handleRenameChannelV2} onToggleModal={handleToggleRenameChannelModal} id={currentChannelId} currentChannel={currentChannel} isActive={modalRenameActive}/>
+
+                        <DeleteChannelModal onDeleteChannel={handelRemoveChannelV2}  onToggleModal={handleToggleDeleteChannelModal} id={currentChannelId} isActive={modalDeleteActive}/>
+
                         <div className="channels">
                             <div className="channelsHead">
                                 <span className="channelsListTitle">Каналы</span> 
-                                <Button className="plus" size="sm" variant="outline-primary" onClick={() => setModalActive(true)}>+</Button>
+                                <Button className="plus" size="sm" variant="outline-primary" onClick={() => setModalAddActive(true)}>+</Button>
                             </div>
                             <ul className="channelsList">
                                 {channels.map((channel) => 
@@ -333,7 +224,7 @@ const MainPage = () => {
                             </div>
                             <div className="messagesInput">
                                 <InputGroup>
-                                    <Form.Control variant="outline-primary" type='text' placeholder="Введите сообщение..." name='textOfMessage' onChange={handleChangeMessage} value={textOfMessage} onBlur={handleBlur} />
+                                    <Form.Control variant="outline-primary" type='text' placeholder="Введите сообщение..." name='textOfMessage' onChange={handleChangeMessage} value={textOfMessage} />
                                     <Button  variant="outline-primary" onClick={sendMasseges} disabled={!textOfMessage} type='submit'>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-ardiv-right-square" viewBox="0 0 16 16">
                                             <path fillRule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>

@@ -29,6 +29,8 @@ const App = () => {
             token
         }))
     }, [])
+    const user = useSelector(state => state.user)
+
 
     return (
         <Router>
@@ -36,7 +38,7 @@ const App = () => {
                 <Navbar expand="lg" variant="light" bg="light" className="shadow-sm">
                     <Container>
                         <Navbar.Brand href="/">Hexlet Chat</Navbar.Brand>
-                        <Button variant="primary" onClick={() => dispatch(logout())}>Выйти</Button>
+                        {user.isAuth ? <Button variant="primary" onClick={() => dispatch(logout())}>Выйти</Button> : null}
                     </Container>
                 </Navbar>
 
