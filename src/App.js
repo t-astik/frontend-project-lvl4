@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from "react-router";
-import {
-    BrowserRouter as Router,
-    Link
-  } from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import MainPage from './components/mainPage.js';
 import LoginForm from './components/loginPage.js';
 import NotFound from  './components/notFoundPage.js';
@@ -35,10 +32,10 @@ const App = () => {
     return (
         <Router>
             <div className="app">
-                <Navbar expand="lg" variant="light" bg="light" className="shadow-sm">
+                <Navbar expand="lg" variant="light" bg="light" className="nav shadow-sm">
                     <Container>
-                        <Navbar.Brand href="/">ASTIK CHAT</Navbar.Brand>
-                        {user.isAuth ? <Button variant="primary" onClick={() => dispatch(logout())}>Выйти</Button> : null}
+                        <Navbar.Brand className="nav__title" href="/">ASTIK CHAT</Navbar.Brand>
+                        {user.isAuth ? <Button className="nav__button" variant="primary" onClick={() => dispatch(logout())}>Выйти</Button> : null}
                     </Container>
                 </Navbar>
 

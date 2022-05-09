@@ -9,6 +9,10 @@
    margin-bottom: 10px;
 }
 
+.nav__title {
+    font-family: system-ui;
+}
+
 .content {
     margin-top: 20px;
     flex-grow: 1;

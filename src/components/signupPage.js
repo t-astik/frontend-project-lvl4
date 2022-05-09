@@ -1,13 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import {useHistory} from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import registration from '../actions/registration.js';
 import {Button, Form, Card, Container, Row, Col, FloatingLabel} from 'react-bootstrap';
+import SignupImage from '../../assets/signup-image.jpeg'
 
 import './loginPageStyles.css';
 
 
  
  const SignupForm = () => {
+    const { push } = useHistory()
     const [nickName, setNickName] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVerification, setPasswordVerification] = useState('');
@@ -92,6 +95,11 @@ import './loginPageStyles.css';
         e.preventDefault();
         const username = nickName;
         dispatch(registration(username, password));
+        setNickName('');
+        setPassword('');
+        setPasswordVerification('');
+
+        push('/login')
     };
 
     return (
@@ -103,7 +111,7 @@ import './loginPageStyles.css';
                                 <Row>
                                     <Col xs={12} sm={6} md={5}>
                                         <div className="left">
-                                            <img className="signupImage" src="http://localhost:8080/assets/signup-image.jpeg" alt="Регистрация"></img>
+                                            <img className="signupImage" src={SignupImage} alt="Регистрация"></img>
                                         </div>
                                     </Col>
                                     <Col xs={12} sm={6} md={7}>
@@ -121,7 +129,7 @@ import './loginPageStyles.css';
                                                 <Form.Control type='text' placeholder="Подвердите пароль" name='passwordVerification' value={passwordVerification} onBlur={handleBlur} onChange={handleChangePasswordVerification}/>
                                                 {(passwordVerificationDirty && passwordVerificationErrors) && <div className="Errors" >{passwordVerificationErrors}</div>}   
                                             </FloatingLabel>
-                                            <Button className="registrationButton" variant="outline-primary" type='submit' disabled={!valid} onClick={handleSubmit}>Зарегестриваться</Button>
+                                            <Button className="registrationButton" variant="outline-primary" type='submit' disabled={!valid} onClick={handleSubmit}>Зарегистрироваться</Button>
                                         </div>
                                     </Col>
                                 </Row>

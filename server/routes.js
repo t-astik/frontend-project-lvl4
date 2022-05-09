@@ -16,8 +16,8 @@ const buildState = (defaultState) => {
       { id: randomChannelId, name: 'random', removable: false },
     ],
     messages: [
-      {"body":"123","channelId":1,"username":"admin","id":111111},
-      {"body":"q","channelId":2,"username":"admin","id":2222222}
+      {"body":"Привет, Targemy!","channelId":1,"username":"admin","id":111111},
+      {"body":"Привет, Targemy!","channelId":2,"username":"admin","id":2222222}
     ],
     currentChannelId: generalChannelId,
     users: [

@@ -14,7 +14,7 @@ const authorization =   (username, password) => {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('username', response.data.username);
         } catch (error) {
-            alert(error.response.data.message);
+            alert('Пользователь не зарегистрирован');
         }
     };
 };

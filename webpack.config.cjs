@@ -16,7 +16,7 @@ module.exports = {
   },
   devServer: {
     compress: true,
-    port: 8080,
+    port: 7080,
     host: '0.0.0.0',
     publicPath: '/assets/',
     historyApiFallback: true,

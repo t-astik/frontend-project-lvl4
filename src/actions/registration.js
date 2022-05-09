@@ -7,9 +7,10 @@ const registration = (username, password) => {
                 username,
                 password,
             });
-            alert(response.data);
+            alert(`Пользователь ${username} был успешно зарегестрирован`);
         } catch (error) {
-            alert(error.response.data.message);
+            console.error(error)
+            alert(`Пользователь ${username} уже зарегестрирован`);
         }
     }
     

@@ -11,6 +11,8 @@ import {Col} from 'react-bootstrap';
 import {FloatingLabel} from 'react-bootstrap';
 import './signupPageStyles.css';
 
+import LoginImage from '../../assets/login-image.jpeg'
+
 const LoginForm = () => {
     const [nickName, setNickName] = useState('');
     const [password, setPassword] = useState('');
@@ -81,7 +83,7 @@ const LoginForm = () => {
                                 <Row>
                                     <Col xs={12} sm={6} md={5}>
                                         <div className="left">
-                                            <img className="loginImage" src="http://localhost:8080/assets/login-image.jpeg" alt="Регистрация"></img>
+                                            <img className="loginImage" src={LoginImage} alt="Регистрация"></img>
                                         </div>
                                     </Col>
                                     <Col xs={12} sm={6} md={7}>
