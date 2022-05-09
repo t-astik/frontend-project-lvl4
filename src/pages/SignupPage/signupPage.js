@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {useHistory} from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import registration from '../actions/registration.js';
+import registration from '../../actions/registration.js';
 import {Button, Form, Card, Container, Row, Col, FloatingLabel} from 'react-bootstrap';
-import SignupImage from '../../assets/signup-image.jpeg'
+import SignupImage from '../../../assets/signup-image.jpeg'
 
-import './loginPageStyles.css';
+import './signupPageStyles.css';
 
 
  

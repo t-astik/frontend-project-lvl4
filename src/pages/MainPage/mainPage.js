@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from "socket.io-client";
 import { Redirect } from 'react-router-dom';
-import getData from '../actions/getData.js';
-import {setCurrentChannel} from '../reducers/channelsReducer.js';
+import getData from '../../actions/getData.js';
+import {setCurrentChannel} from '../../reducers/channelsReducer.js';
 import {Button, Form, Card, Container, Row, Col, FloatingLabel, Dropdown, SplitButton, Modal, InputGroup, ButtonGroup} from 'react-bootstrap';
 import './mainPageStyles.css';
-import AddChannelModal from './AddChannelModal.js';
-import RenameChannelModal from './RenameChannelModal.js';
-import DeleteChannelModal from './DeleteChannelModal.js';
+import AddChannelModal from '../../components/AddChannelModal.js';
+import RenameChannelModal from '../../components/RenameChannelModal.js';
+import DeleteChannelModal from '../../components/DeleteChannelModal.js';
 
 const MainPage = () => {
 

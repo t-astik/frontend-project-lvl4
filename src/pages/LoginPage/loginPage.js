@@ -1,6 +1,6 @@
 // import { Formik } from 'formik';
 import React, { useMemo, useEffect, useState } from 'react';
-import authorization from '../actions/authorization.js';
+import authorization from '../../actions/authorization.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import {Button} from 'react-bootstrap';
@@ -9,9 +9,9 @@ import {Container} from 'react-bootstrap';
 import {Row} from 'react-bootstrap';
 import {Col} from 'react-bootstrap';
 import {FloatingLabel} from 'react-bootstrap';
-import './signupPageStyles.css';
+import './loginPageStyles.css';
 
-import LoginImage from '../../assets/login-image.jpeg'
+import LoginImage from '../../../assets/login-image.jpeg'
 
 const LoginForm = () => {
     const [nickName, setNickName] = useState('');
